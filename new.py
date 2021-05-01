@@ -5,13 +5,15 @@ data = json.load(open("data.json"))
 
 def translate(w):
     w = w.lower()
-    noun = w.title()
 
     if w in data:
         return data[w]
 
-    elif noun in data:
-        return data[noun]
+    elif w.title() in data:
+        return data[w.title()]
+
+    elif w.upper() in data: #in case user enters words like USA or NATO
+        return data[w.upper()]
 
     elif len(get_close_matches(w, data.keys())) > 0:
         yn = input("Did you mean %s instead? Enter Y if yes, or N if no." % get_close_matches(w, data.keys())[0])
@@ -21,7 +23,7 @@ def translate(w):
             return "The word doesn't exist in the data set. Please check the spelling."
         else:
             return "No comprende."
-            
+
     else:
         return "The word doesn't exist. Please check the spelling."
     
